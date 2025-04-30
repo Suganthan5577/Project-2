@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ElectroMart - Ultimate Electronics Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+    }
+    header {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #00d4ff;
+    }
+    .container {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .banner {
+      background: url('https://images.unsplash.com/photo-1516541196182-6bdb0516ed32?q=80&w=1200&auto=format&fit=crop') center/cover;
+      height: 300px;
+      border-radius: 15px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-blend-mode: overlay;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .banner h2 {
+      font-size: 2.5em;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .search-bar input {
+      width: 70%;
+      max-width: 600px;
+      padding: 15px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1em;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    .card img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .card h3 {
+      margin: 10px 0;
+      font-size: 1.3em;
+      color: #00d4ff;
+    }
+    .card p {
+      margin: 5px 0;
+      color: #ddd;
+    }
+    .card button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #ff2d55;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .card button:hover {
+      background: #e02448;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      margin-top: 40px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ElectroMart</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#" onclick="showCart()">Cart (<span id="cartCount">0</span>)</a>
+    <a href="#">Orders</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="banner">
+    <h2>Discover Cutting-Edge Electronics</h2>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Search components, values, types..." />
+  </div>
+
+  <div class="grid" id="productGrid">
+    <!-- Dynamic product cards will be inserted here -->
+  </div>
+</div>
+
+<div class="footer">© 2025 ElectroMart | Engineered for Innovation</div>
+
+<script>
+  const products = [
+    { id: 1, name: "Resistor 220Ω", price: 5, rating: 4.5, image: "https://images.unsplash.com/photo-1624274516696-2b9b9e391f6e?q=80&w=250&auto=format&fit=crop" },
+    { id: 2, name: "Capacitor 100µF", price: 10, rating: 4.2, image: "https://images.unsplash.com/photo-1615485290265-c2f7e4162b42?q=80&w=250&auto=format&fit=crop" },
+    { id: 3, name: "Transistor BC547", price: 8, rating: 4.3, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=250&auto=format&fit=crop" },
+    { id: 4, name: "LED 5mm Red", price: 3, rating: 4.1, image: "https://images.unsplash.com/photo-1600585154526-990dced4366f?q=80&w=250&auto=format&fit=crop" },
+    { id: 5, name: "IC 555 Timer", price: 15, rating: 4.7, image: "https://images.unsplash.com/photo-1624274516728-2b9b9e391f6e?q=80&w=250&auto=format&fit=crop" },
+    { id: 6, name: "Arduino Uno", price: 450, rating: 4.8, image: "https://images.unsplash.com/photo-1569183091671-696402586989?q=80&w=250&auto=format&fit=crop" }
+  ];
+
+  let cart = [];
+
+  function displayProducts(list) {
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = '';
+    list.forEach(product => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>Price: ₹${product.price}</p>
+        <p>Rating: ⭐ ${product.rating}</p>
+        <button onclick="addToCart(${product.id})">Add to Cart</button>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    document.getElementById("cartCount").innerText = cart.length;
+    alert(`${product.name} added to cart!`);
+  }
+
+  function filterProducts() {
+    const value = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(value));
+    displayProducts(filtered);
+  }
+
+  function showCart() {
+    let items = cart.map(p => `${p.name} - ₹${p.price}`).join('\n');
+    let total = cart.reduce((sum, p) => sum + p.price, 0);
+    alert(`Cart:\n${items}\n\nTotal: ₹${total}`);
+  }
+
+  window.onload = () => displayProducts(products);
+</script>
+
+</body>
+</html>

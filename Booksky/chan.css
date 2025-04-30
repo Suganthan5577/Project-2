@@ -1,0 +1,16 @@
+
+.Header{
+    
+    color: black;
+    padding: 10px;
+    text-align: center;
+    border-color: black;
+    border-radius: 15px;
+    border-style: solid;
+    background-color: #FFDAB9;
+}
+.navigation{
+    padding-right: 40%;
+   
+    
+}
